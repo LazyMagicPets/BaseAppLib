@@ -1,0 +1,50 @@
+<Project>
+
+	<PropertyGroup>
+		<!-- Make sure SystemConfigFile has a default value if not already set -->
+		<SystemConfigFile Condition="'$(SystemConfigFile)' == ''">$(SolutionDir)../systemconfig.yaml</SystemConfigFile>
+	</PropertyGroup>
+	
+	<!-- Target to read YAML and extract Environment value -->
+	<UsingTask TaskName="YamlEnvironmentReader" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<YamlFilePath ParameterType="System.String" Required="true" />
+			<EnvironmentValue ParameterType="System.String" Output="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System" />
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[
+          try {
+            string fileContent = File.ReadAllText(YamlFilePath);
+            var regex = new Regex(@"(?m)^Environment:\s*(.+)$");
+            var match = regex.Match(fileContent);
+            
+            if (match.Success) {
+              EnvironmentValue = match.Groups[1].Value.Trim();
+              Log.LogMessage(MessageImportance.High, $"Found Env value: {EnvironmentValue}");
+            } else {
+              EnvironmentValue = "unknown";
+              Log.LogWarning("Env property not found in YAML file");
+            }
+          } catch (Exception ex) {
+            Log.LogError($"Error reading YAML file: {ex.Message}");
+            EnvironmentValue = "unknown";
+          }
+        ]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="ExtractEnvironmentFromYaml" BeforeTargets="BeforeBuild">
+		<YamlEnvironmentReader YamlFilePath="$(SystemConfigFile)">
+			<Output TaskParameter="EnvironmentValue" PropertyName="Env" />
+		</YamlEnvironmentReader>
+
+		<Message Importance="high" Text="Environment extracted from YAML: $(Env)" />
+	</Target>
+
+	<!-- Rest of your targets -->
+</Project>

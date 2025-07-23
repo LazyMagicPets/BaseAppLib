@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Solution.Build.props'))"/>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('MakePackage.targets'))"/>
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<AssemblyName>BaseApp.ViewModels</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ReactiveUI.Fody" />
+		<PackageReference Include="ReactiveUI" />
+		
+		<PackageReference Include="LazyMagic.Client.FactoryGenerator" PrivateAssets="all" />
+		<PackageReference Include="LazyMagic.Client.ModelGenerator" PrivateAssets="all" />
+		<PackageReference Include="LazyMagic.Client.Auth.Cognito" />
+		<PackageReference Include="LazyMagic.Client.ViewModels.Auth.Notifications" />
+		<PackageReference Include="LazyMagic.Shared" />
+		<!--<PackageReference Include="TenantApi" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ConsumerApi" />
+	</ItemGroup>	
+	
+</Project>

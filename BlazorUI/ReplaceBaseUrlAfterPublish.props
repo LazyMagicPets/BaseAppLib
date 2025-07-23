@@ -1,0 +1,16 @@
+<!-- 
+This target is imported by the WASMApp. 
+Remember to change the NewBaseUrl property to the baseUrl for your App.
+-->
+
+<Project>
+	<Target Name="ReplaceBaseUrlBeforePublish" BeforeTargets="Publish">
+		<PropertyGroup>
+			<ReplaceBaseUrlScriptPath>$(MSBuildProjectDirectory)\ReplaceBaseUrl.ps1</ReplaceBaseUrlScriptPath>
+			<IndexHtmlPath>$(PublishDir)wwwroot\index.html</IndexHtmlPath>
+			<NewBaseUrl>/baseapp/</NewBaseUrl>
+		</PropertyGroup>
+		<Message Text="Publishing to directory: $(PublishDir)" Importance="high" />
+		<Exec Command="pwsh -NonInteractive -ExecutionPolicy Bypass -File &quot;$(ReplaceBaseUrlScriptPath)&quot; -indexHtmlPath &quot;$(IndexHtmlPath)&quot; -newBaseUrl &quot;$(NewBaseUrl)&quot;" />
+	</Target>
+</Project>

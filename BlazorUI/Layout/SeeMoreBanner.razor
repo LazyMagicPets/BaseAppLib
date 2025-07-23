@@ -1,0 +1,23 @@
+﻿@namespace BlazorUI
+@inherits LzComponentBasePassViewModel<TenantConfigViewModel>
+@inject ILzHost Host
+
+
+@if(href != null)
+{
+    <a href="@href" target="_blank">
+        <img src="@logoUrl" href="@href" style="max-width: 100%; height: auto;" />
+    </a>
+}
+
+@code {
+    private string? href;
+    private string logoUrl => Host.AssetsUrl + "subtenancy/base/System/banner.png";
+    private bool isLoaded => ViewModel!.IsLoaded;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        href ??= ViewModel?.TenantConfig?.SeeMoreUrl;
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

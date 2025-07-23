@@ -1,0 +1,14 @@
+﻿@namespace BlazorUI
+@inherits LzComponentBaseInjectViewModel<ISessionsViewModel>  
+
+<Container 
+    Width="Width.Max100" 
+    Padding="Padding.Is2.OnX.Is0.OnY"
+    Margin="Margin.Is2.FromBottom"
+    Style="max-height:auto; max-width: 640px;"
+    >  
+    <SeeMoreBanner ViewModel="@ViewModel!.TenantConfigViewModel"/>
+</Container>
+@code {
+
+}

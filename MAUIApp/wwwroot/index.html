@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!-- We have modified the standard MAUI Hybrid Index.hmtl file to rely on assets
+    in the BlazorUI razor library project where the App UI lives. The intent is to
+    have the skinniest MAUIApp possible so all App level UI code lives in the
+    BlazorUI library. -->
+<html lang="en">
+<head>
+    <!-- We use no-cache because we implement our own caching strategy for all assets. -->
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <base href="" />
+    <link rel="stylesheet" href="_content/LazyMagic.Blazor/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="_content/LazyMagic.Blazor/css/app.css" />
+    <link href="./WASMApp.styles.css" rel="stylesheet" />
+    <link href="_content/BlazorUI/manifest.json" rel="manifest" />
+
+    <!-- Load addLink(), addScript() functions -->
+    <script src="_content/LazyMagic.Blazor/indexconfig.js"></script>
+
+    <!-- indexhead.js uses addLink() and addScript() to add required elements -->
+    <script src="_content/BlazorUI/indexhead.js"></script>
+</head>
+
+<body>
+
+    <div class="status-bar-safe-area"></div>
+    <div id="main"></div>
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script>
+        window.myAppConfig = {
+            apiUrl: "https://api.example.com",
+            version: "1.0.0"
+        };
+        window.isLoaded = false;
+
+        window.addEventListener('load', function () {
+            window.isLoaded = true;
+        });
+
+        window.checkIfLoaded = function () {
+            return window.isLoaded;
+        };
+
+    </script>
+
+    <!-- indexbody.js uses addLink() and addScriopt() to add required elements -->
+    <script src="_content/BlazorUI/indexbody.js"></script>
+
+    <script src="_framework/blazor.webview.js" autostart="false"></script>
+
+    <script type="module" src="indexinit.js"></script>
+</body>
+
+</html>

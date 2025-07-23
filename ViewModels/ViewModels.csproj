@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="$(MSBuildProjectDirectory)/../Solution.Build.props"/>
+	
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="LazyMagic.Client.FactoryGenerator" PrivateAssets="all"/>
+		<PackageReference Include="LazyMagic.Client.ModelGenerator" PrivateAssets="all" />
+		
+		<PackageReference Include="ReactiveUI.Fody" />
+		<PackageReference Include="ReactiveUI" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ConsumerApi" />
+		<PackageReference Include="StoreApi" />
+		<PackageReference Include="PublicApi" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
+	</ItemGroup>
+	
+</Project>

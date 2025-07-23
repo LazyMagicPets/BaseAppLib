@@ -1,0 +1,78 @@
+<Project>
+	<!-- 
+	We use a very simple strategy for local development packages. 
+	We use Nuget.Config files to make the $(PackageRepoFolder) a package registry.
+	Each time we rebuild a solution, we clean out any old pacakges and generate 
+	new packages. We suffix the package with the build timestamp so a "newer" 
+	version is made available to the restore process. This ensures that the 
+	restore process picks up the newer package when you compile a project referencing the package. 
+	 -->
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<!-- Configure package version after external properties are loaded -->
+	<Target Name="ConfigurePackageVersion" BeforeTargets="GenerateNuspec">
+		<PropertyGroup>
+			<PackageVersion>$(Version)</PackageVersion>
+		</PropertyGroup>
+		<Message Importance="High" Text="[MakePackage] PkgSuffix=$(PkgSuffix)" />
+		<Message Importance="High" Text="[MakePackage] PackageVersion=$(PackageVersion)" />
+		<Message Importance="High" Text="[MakePackage] RestorePackagesWithLockFile=$(RestorePackagesWithLockFile)" />
+		<Message Importance="High" Text="[MakePackage] RestoreLockedMode=$(RestoreLockedMode)" />
+	</Target>
+
+	<!-- Create the Packages folder if it doesn't exist -->
+	<Target Name="CreateDirectories" BeforeTargets="Build">
+		<MakeDir Directories="$(PackageRepoFolder)"/>
+		<Message Importance="High" Text="[MakePackage] UseTimestampSuffix=$(UseTimestampSuffix)" />
+	</Target>
+
+	<!-- Clean Existing Package Target -->
+	<Target Name="CleanExistingPackages" BeforeTargets="Pack">
+		<Message Importance="High" Text="[MakePackage] Cleaning all existing packages for $(AssemblyName)" />
+		<ItemGroup>
+			<ExistingPackages Include="$(PackageRepoFolder)\$(AssemblyName).*.nupkg" />
+			<ExistingSymbolPackages Include="$(PackageRepoFolder)\$(AssemblyName).*.snupkg" />
+		</ItemGroup>
+		<Delete Files="@(ExistingPackages)" />
+		<Delete Files="@(ExistingSymbolPackages)" />
+	</Target>
+
+	<!-- Copy Package Target -->
+	<Target Name="CopyPackage" AfterTargets="Pack">
+		<Message Importance="high" Text="Copying $(AssemblyName).$(PackageVersion).nupkg to Packages folder" />
+		<Copy SourceFiles=".\bin\$(Configuration)\$(AssemblyName).$(PackageVersion).nupkg"
+			  DestinationFiles="$(PackageRepoFolder)\$(AssemblyName).$(PackageVersion).nupkg" />
+		<Copy Condition="Exists('.\bin\$(Configuration)\$(AssemblyName).$(PackageVersion).snupkg')"
+			  SourceFiles=".\bin\$(Configuration)\$(AssemblyName).$(PackageVersion).snupkg"
+			  DestinationFiles="$(PackageRepoFolder)\$(AssemblyName).$(PackageVersion).snupkg" />
+	</Target>
+
+	<!-- Delete Package from local cache. This is necessary to force NuGet to pick up the latest local version. -->
+	<Target Name="DeletePackage" AfterTargets="Build">
+		<MSBuild Projects="$(MSBuildProjectFile)" Targets="DeleteSpecificPackage" Properties="Configuration=$(Configuration)" />
+	</Target>
+
+	<Target Name="DeleteSpecificPackage">
+		<PropertyGroup>
+			<PackageCacheFolder>$(NuGetPackageRoot)$(AssemblyName)\$(Version)</PackageCacheFolder>
+		</PropertyGroup>
+		<Message Importance="high" Text="Attempting to delete package $(AssemblyName) version $(Version) from cache folder $(PackageCacheFolder)" />
+		<!-- Windows-specific delete command -->
+		<Exec Condition=" '$(OS)' == 'Windows_NT' AND Exists('$(PackageCacheFolder)')"
+			  Command="cmd.exe /c &quot;if exist &quot;$(PackageCacheFolder)&quot; rmdir /s /q &quot;$(PackageCacheFolder)&quot;&quot;"
+			  ContinueOnError="true">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+		</Exec>
+		<!-- Unix/Linux/Mac-specific delete command -->
+		<Exec Condition=" '$(OS)' != 'Windows_NT' AND Exists('$(PackageCacheFolder)')"
+			  Command="rm -rf &quot;$(PackageCacheFolder)&quot;"
+			  ContinueOnError="true">
+			<Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
+		</Exec>
+		<Message Condition="'$(ErrorCode)' != '0'" Importance="high" Text="Failed to delete package. Error code: $(ErrorCode)" />
+		<Message Condition="'$(ErrorCode)' == '0'" Importance="high" Text="Successfully deleted package from $(PackageCacheFolder)" />
+	</Target>
+	
+</Project>

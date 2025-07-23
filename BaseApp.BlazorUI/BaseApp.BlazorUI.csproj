@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Solution.Build.props'))" />
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('MakePackage.targets'))" />
+	<PropertyGroup>
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+		<AssemblyName>BaseApp.BlazorUI</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<SupportedPlatform Include="browser" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ReactiveUI.Fody" />
+		<PackageReference Include="ReactiveUI" />
+		<PackageReference Include="MudBlazor" />
+		<PackageReference Include="KristofferStrube.Blazor.FileSystemAccess" />
+		<PackageReference Include="LazyMagic.Blazor.Auth" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="wwwroot\data\" />
+	</ItemGroup>
+    
+
+</Project>
