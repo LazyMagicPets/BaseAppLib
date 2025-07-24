@@ -14,14 +14,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="ConsumerApi" />
 		<PackageReference Include="StoreApi" />
 		<PackageReference Include="PublicApi" />
 	</ItemGroup>
-
-
-	<ItemGroup>
-		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
-	</ItemGroup>
-	
 </Project>

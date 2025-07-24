@@ -12,8 +12,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ReactiveUI.Fody" />
-		<PackageReference Include="ReactiveUI" />
 		<PackageReference Include="MudBlazor" />
 		<PackageReference Include="KristofferStrube.Blazor.FileSystemAccess" />
 		<PackageReference Include="LazyMagic.Blazor.Auth" />
@@ -22,10 +20,5 @@
 	<ItemGroup>
 		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="wwwroot\data\" />
-	</ItemGroup>
-    
 
 </Project>

@@ -12,7 +12,7 @@
     <base href="" />
     <link rel="stylesheet" href="_content/LazyMagic.Blazor/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="_content/LazyMagic.Blazor/css/app.css" />
-    <link href="./WASMApp.styles.css" rel="stylesheet" />
+    <link href="./MAUIApp.styles.css" rel="stylesheet" />
     <link href="_content/BlazorUI/manifest.json" rel="manifest" />
 
     <!-- Load addLink(), addScript() functions -->
@@ -31,23 +31,6 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
-
-    <script>
-        window.myAppConfig = {
-            apiUrl: "https://api.example.com",
-            version: "1.0.0"
-        };
-        window.isLoaded = false;
-
-        window.addEventListener('load', function () {
-            window.isLoaded = true;
-        });
-
-        window.checkIfLoaded = function () {
-            return window.isLoaded;
-        };
-
-    </script>
 
     <!-- indexbody.js uses addLink() and addScriopt() to add required elements -->
     <script src="_content/BlazorUI/indexbody.js"></script>

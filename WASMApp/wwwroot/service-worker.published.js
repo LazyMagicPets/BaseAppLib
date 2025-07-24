@@ -7,7 +7,7 @@
 // in the myserviceworker.js file.
 import { appConfig } from './_content/BlazorUI/appConfig.js';
 import { settings } from './_content/BlazorUI/staticContentSettings.js';
-import * as staticContentModule from './_content/BaseApp.BlazorUI/staticContentModule.js'; // Note namespace use
+import * as staticContentModule from './_content/LazyMagic.Blazor/staticContentModule.js'; // Note namespace use
 import { connectivityService } from './_content/LazyMagic.Blazor/connectivityService.js';
 import './_content/LazyMagic.Blazor/lzserviceworker.js';
 
