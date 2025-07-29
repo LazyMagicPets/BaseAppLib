@@ -1,4 +1,5 @@
 using LazyMagic.Blazor;
+using LazyMagic.Shared;
 using Microsoft.JSInterop;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
@@ -15,6 +16,7 @@ public partial class Program
 
     private static async Task Main(string[] args)
     {
+
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
         builder.RootComponents.Add<Main>("#main");
@@ -56,10 +58,8 @@ public partial class Program
             LogLevel.Warning); // Only show Warning and above for ASP.NET Core
 
         // Here, we only register classes that require specific WASM configuration.
-        // The call to AddBlazorUI() will register all the other classes that are not WASM specific.
         builder.Services
-        .AddSingleton(sp => new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) })
-
+            .AddSingleton(sp => new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) })
             .AddSingleton<IStaticAssets>(sp => new BlazorStaticAssets(
                 sp.GetRequiredService<ILoggerFactory>(),
                 new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) }))
@@ -73,8 +73,15 @@ public partial class Program
                 isMAUI: false, // sets isWASM to true
                 isAndroid: false,
                 isLocal: isLocal,
-                useLocalhostApi: useLocalhostApi))
-            .AddBlazorUI();
+                useLocalhostApi: useLocalhostApi));
+
+        // This adds all the App ViewModels
+        builder.Services.AddAppViewModels();
+
+        // This adds all the App Components
+        builder.Services.AddBlazorUI();
+
+        builder.Services.PrintRegistrationsAsMarkdownTable();
 
         var host = builder.Build();
 

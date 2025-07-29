@@ -5,18 +5,16 @@ public class TagsViewModel : LzItemsViewModelAuthNotifications<TagViewModel, Tag
 {
     public TagsViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,
-        IBaseAppSessionViewModel sessionViewModel,
-        [FactoryInject] ITagViewModelFactory tagViewModelFactory) : base(loggerFactory, sessionViewModel)
+        [FactoryInject] IHostApi hostApi,   
+        [FactoryInject] ITagViewModelFactory tagViewModelFactory) : base(loggerFactory)
     {
-        _sessionViewModel = sessionViewModel;
         TagViewModelFactory = tagViewModelFactory;
-        _DTOReadListAsync = sessionViewModel.ConsumerApi.PublicModuleGetPetTagsAsync;
+        _DTOReadListAsync = (Func<Task<ICollection<Tag>>>?)hostApi.GetMethod("PublicModuleGetPetTagsAsync", typeof(bool));
     }
-    private IBaseAppSessionViewModel _sessionViewModel;
     public ITagViewModelFactory? TagViewModelFactory { get; init; }
     /// <inheritdoc/>
     public override (TagViewModel, string) NewViewModel(Tag dto)
-        => (TagViewModelFactory!.Create(_sessionViewModel, this, dto), string.Empty);
+        => (TagViewModelFactory!.Create(this, dto), string.Empty);
     public Func<Task<string>>? SvcTestAsync { get; init; }
     public async Task<string> TestAsync()
     {

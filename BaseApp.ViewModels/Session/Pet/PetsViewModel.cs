@@ -6,19 +6,16 @@ public class PetsViewModel : LzItemsViewModelAuthNotifications<PetViewModel, Pet
 {
     public PetsViewModel(
         [FactoryInject]ILoggerFactory loggerFactory,
-        IBaseAppSessionViewModel sessionViewModel,
-        [FactoryInject] IPetViewModelFactory petViewModelFactory) : base(loggerFactory, sessionViewModel)  
+        [FactoryInject] IHostApi hostApi,
+        [FactoryInject] IPetViewModelFactory petViewModelFactory) : base(loggerFactory)  
     { 
-        _sessionViewModel = sessionViewModel;
         PetViewModelFactory = petViewModelFactory;
-        _DTOReadListAsync = sessionViewModel.ConsumerApi.PublicModuleListPetsAsync;
-
+        _DTOReadListAsync = (Func<Task<ICollection<Pet>>>?)hostApi.GetMethod("StoreModuleListPetsAsync", typeof(bool));
     }
-    private IBaseAppSessionViewModel _sessionViewModel;
     public IPetViewModelFactory? PetViewModelFactory { get; init; }
     /// <inheritdoc/>
     public override (PetViewModel, string) NewViewModel(Pet dto)
-        => (PetViewModelFactory!.Create(_sessionViewModel, this, dto), string.Empty);
+        => (PetViewModelFactory!.Create( this, dto), string.Empty);
     public Func<Task<string>>? SvcTestAsync { get; init; }
     public async Task<string> TestAsync()
     {

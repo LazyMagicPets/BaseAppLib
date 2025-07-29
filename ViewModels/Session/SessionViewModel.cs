@@ -9,38 +9,39 @@ namespace ViewModels;
 /// </summary>
 [Factory]
 
-public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel
+public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICurrentSessionViewModel
 {
     public SessionViewModel(
         [FactoryInject] ILoggerFactory loggerFactory, // singleton
         [FactoryInject] ILzClientConfig clientConfig, // singleton
-        [FactoryInject] IInternetConnectivitySvc internetConnectivity, // singleton
+        [FactoryInject] IConnectivityService connectivityService, // singleton
         [FactoryInject] ILzHost lzHost, // singleton
         [FactoryInject] ILzMessages messages, // singleton
         [FactoryInject] IAuthProcess authProcess, // transient
         [FactoryInject] IPetsViewModelFactory petsViewModelFactory, // transient
         [FactoryInject] ICategoriesViewModelFactory categoriesViewModelFactory, // transient
         [FactoryInject] ITagsViewModelFactory tagsViewModelFactory, // transient
+        [FactoryInject] Lazy<IStoreApi> storeApi, // singleton
         ISessionsViewModel sessionsViewModel
-        ) : base(loggerFactory, authProcess, clientConfig, internetConnectivity, messages, 
+        ) : base(loggerFactory, authProcess, clientConfig, connectivityService, messages, 
                 petsViewModelFactory, categoriesViewModelFactory, tagsViewModelFactory )
     {
         this.sessionsViewModel = sessionsViewModel;
 
         try
         {
-
-            var sessionId = Guid.NewGuid().ToString();
-            ConsumerApi = new ConsumerApi.ConsumerApi(new LzHttpClient(loggerFactory, authProcess.AuthProvider, lzHost, sessionId));
-
+            // Note that StoreApi has a dependency on LzHttpClient, which has a dependency on ISessionsViewModel.
+            // The LzHttpClient uses Lazy<ISessionsViewModel> to avoid a circular dependency. This works just fine 
+            // as we make no calls to the StoreApi until after the SessionViewModel is fully initialized. 
+            
             var tenantKey = (string?)clientConfig.TenancyConfig["tenantKey"] ?? throw new Exception("Cognito TenancyConfig.tenantKey is null");
             authProcess.SetAuthenticator(clientConfig.AuthConfigs?["TenantAuth"]!);
             authProcess.SetSignUpAllowed(false);
 
-
-            // The PublicApi is used to send fingerPrint data to the server. It is an unauthenticated API client.
-            PublicApi = new PublicApi.PublicApi(new LzHttpClient(loggerFactory, null, lzHost, sessionId));
-
+            // Note: IStoreApi is resolved when IHostApi is resolved. This makes dynamice binding of the API methods possible
+            // in libraries like the BaseApp.ViewModels. In the app, use the IStoreApi interface to access the StoreApi methods 
+            // to avoid the overhead of the dynamic binding.
+            _storeApi = storeApi?.Value ?? throw new ArgumentNullException(nameof(storeApi), "StoreApi cannot be null");
         }
         catch (Exception ex)
         {
@@ -50,8 +51,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel
     }
 
     private ISessionsViewModel? sessionsViewModel;
-
-    public IPublicApi PublicApi { get; set; } = null!;  
+    protected IStoreApi _storeApi;
     public override async Task InitAsync()
     {
         try
@@ -61,7 +61,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel
             PublicSchema.Fingerprint newFingerprint = JsonConvert.DeserializeObject<PublicSchema.Fingerprint>(fingerPrint) ?? new PublicSchema.Fingerprint();
 
             newFingerprint.Id = Guid.NewGuid().ToString();
-            await PublicApi.PublicModuleFingerprintCreateAsync(newFingerprint);
+            await _storeApi.PublicModuleFingerprintCreateAsync(newFingerprint);
         }
         catch (Exception ex)
         {

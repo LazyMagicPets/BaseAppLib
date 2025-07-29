@@ -8,19 +8,19 @@ public abstract class BaseAppSessionViewModel :
         ILoggerFactory loggerFactory,
         IAuthProcess authProcess,
         ILzClientConfig clientConfig,
-        IInternetConnectivitySvc internetConnectivity,
+        IConnectivityService connectivityService,
         ILzMessages messages,
         IPetsViewModelFactory petsViewModelFactory, // transient
         ICategoriesViewModelFactory categoriesViewModelFactory, // transient
         ITagsViewModelFactory tagsViewModelFactory // transient
-        ) : base(loggerFactory, authProcess, clientConfig, internetConnectivity, messages)
+        ) : base(loggerFactory, authProcess, clientConfig, connectivityService, messages)
     {
 
-        PetsViewModel = petsViewModelFactory?.Create(this) ?? throw new ArgumentNullException(nameof(petsViewModelFactory));
+        PetsViewModel = petsViewModelFactory?.Create() ?? throw new ArgumentNullException(nameof(petsViewModelFactory));
 
-        CategoriesViewModel = categoriesViewModelFactory?.Create(this) ?? throw new ArgumentNullException(nameof(categoriesViewModelFactory));
+        CategoriesViewModel = categoriesViewModelFactory?.Create() ?? throw new ArgumentNullException(nameof(categoriesViewModelFactory));
 
-        TagsViewModel = tagsViewModelFactory?.Create(this) ?? throw new ArgumentNullException(nameof(tagsViewModelFactory));
+        TagsViewModel = tagsViewModelFactory?.Create() ?? throw new ArgumentNullException(nameof(tagsViewModelFactory));
     }
 
     public IConsumerApi? ConsumerApi { get; set; }

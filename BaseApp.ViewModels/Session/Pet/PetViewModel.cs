@@ -7,25 +7,21 @@ public class PetViewModel : LzItemViewModelAuthNotifications<Pet, PetModel>
 {
     public PetViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,
-        [FactoryInject] ReadPetDelegate? readPetDelegate,
-        [FactoryInject] CreatePetDelegate? createPetDelegate,
-        [FactoryInject] UpdatePetDelegate? updatePetDelegate,
-        [FactoryInject] DeletePetDelegate? deletePetDelegate,
-        IBaseAppSessionViewModel sessionViewModel,
+        [FactoryInject] IHostApi hostApi,
         ILzParentViewModel parentViewModel,
         Pet pet,
         bool? isLoaded = null
-        ) : base(loggerFactory, sessionViewModel, pet, model: null, isLoaded) 
+        ) : base(loggerFactory, pet, model: null, isLoaded) 
     {
-        _sessionViewModel = sessionViewModel;   
         ParentViewModel = parentViewModel;
-        _DTOReadAsync = readPetDelegate?.Value ?? sessionViewModel!.ConsumerApi!.PublicModuleGetPetByIdAsync;
-        _DTOCreateAsync = createPetDelegate?.Value; // no default because the API is not available in BaseAppLib
-        _DTOUpdateAsync = updatePetDelegate?.Value; // no default because the API is not available in the BaseAppLib
-        _DTODeleteAsync = deletePetDelegate?.Value; // no default because the API is not available in the BaseAppLib
-
+        // We use GetMethod to dynamically bind to the methods in the host API to 
+        // allow different implementations of the API to be used at runtime for 
+        // this viewModel.
+        _DTOReadAsync = (Func<string, Task<Pet>>?)hostApi.GetMethod("StoreModuleGetPetByIdAsync", typeof(string));
+        _DTOCreateAsync = (Func<Pet, Task<Pet>>?)hostApi.GetMethod("StoreModuleAddPetAsync", typeof(Pet));
+        _DTOUpdateAsync = (Func<Pet, Task<Pet>>?)hostApi.GetMethod("StoreModuleUpdatePetAsync", typeof(Pet));  
+        _DTODeleteAsync = (Func<string,Task>?)hostApi.GetMethod("StoreModuleDeletePetAsync", typeof(string));
     }
-    private IBaseAppSessionViewModel _sessionViewModel;
     public override string Id => Data?.Id ?? string.Empty;
     public override long UpdatedAt => Data?.UpdateUtcTick ?? long.MaxValue;
 

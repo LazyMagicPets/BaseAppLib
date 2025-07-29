@@ -10,18 +10,6 @@
 *@
 @inherits LzComponentBaseAssignViewModel<ISessionViewModel>
 
-@*
-    SessionsViewModel
-    Most pages inject ISessionsViewModel and the ISessionModel is assigned in the OnInitializedAsync method
-        ViewModel = SessionsViewModel.SessionViewModel
-    Note: The bindings of the component to the underlying view model, (in this case ISessionViewModel),
-    are one-to-one. You can't bind multiple view models to a single component. This is a limitation imposed by
-    the underlying ReactiveUI ReactiveComponentBase class. Generally, this is a good thing. If you find you are 
-    trying to use multiple view models in the same component, it's a good indication you need another component.
-*@
-@inject ISessionsViewModel SessionsViewModel
-
-
 <MudPaper Height="400px" Width="600px">
     <MudContainer Fixed="true">
 
@@ -39,9 +27,11 @@
 </MudPaper>
 
 @code {
+    // Get access to the current sessions data
+    [Inject] private ICurrentSessionViewModel SessionViewModel { get; set; } = default!;
     protected override async Task OnInitializedAsync()
     {
-        ViewModel = SessionsViewModel.SessionViewModel;
+        ViewModel = SessionViewModel;
         await base.OnInitializedAsync();
     }
 }

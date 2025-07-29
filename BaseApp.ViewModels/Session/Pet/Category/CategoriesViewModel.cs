@@ -5,18 +5,16 @@ public class CategoriesViewModel : LzItemsViewModelAuthNotifications<CategoryVie
 {
     public CategoriesViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,
-        IBaseAppSessionViewModel sessionViewModel,
-        [FactoryInject] ICategoryViewModelFactory categoryViewModelFactory) : base(loggerFactory, sessionViewModel)
+        [FactoryInject] IHostApi hostApi,
+        [FactoryInject] ICategoryViewModelFactory categoryViewModelFactory) : base(loggerFactory)
     {
-        _sessionViewModel = sessionViewModel;
         CategoryViewModelFactory = categoryViewModelFactory;
-        _DTOReadListAsync = sessionViewModel.ConsumerApi.PublicModuleGetPetCategoriesAsync;
+        _DTOReadListAsync = (Func<Task<ICollection<Category>>>?)hostApi.GetMethod("PublicModuleGetPetCategoriesAsync", typeof(bool));
     }
-    private IBaseAppSessionViewModel _sessionViewModel;
     public ICategoryViewModelFactory? CategoryViewModelFactory { get; init; }
     /// <inheritdoc/>
     public override (CategoryViewModel, string) NewViewModel(Category dto)
-        => (CategoryViewModelFactory!.Create(_sessionViewModel, this, dto), string.Empty);
+        => (CategoryViewModelFactory!.Create(this, dto), string.Empty);
     public Func<Task<string>>? SvcTestAsync { get; init; }
     public async Task<string> TestAsync()
     {

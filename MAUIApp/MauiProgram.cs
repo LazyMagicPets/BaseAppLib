@@ -1,10 +1,12 @@
 ﻿using LazyMagic.Client.Base;
+using LazyMagic.Shared;
 using BlazorUI;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using LazyMagic.Blazor;
 using System.Text.RegularExpressions;
+using ViewModels;
 
 namespace MAUIApp;
 
@@ -71,7 +73,9 @@ public static class MauiProgram
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
+        builder.Services.AddAppViewModels();    
         builder.Services.AddBlazorUI();
+
         var host = builder.Build();
         return host;
     }

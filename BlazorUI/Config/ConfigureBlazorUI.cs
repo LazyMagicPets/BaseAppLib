@@ -5,12 +5,7 @@ public static partial class ConfigureBlazorUI
     {
         //var assembly = typeof(ConfigureBlazorUI).Assembly;
 
-        //services.AddAssetsCmp();
-        services.AddBaseApp();
-        services.AddAppViewModels();
-
+        services.AddBaseAppBlazorUI();
         return services;
-
-
     }
 }

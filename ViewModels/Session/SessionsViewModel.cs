@@ -12,11 +12,11 @@ public class SessionsViewModel : BaseAppSessionsViewModel<ISessionViewModel>, IS
         ITenantConfigViewModelFactory tenantConfigViewModelFactory,
         IStaticAssets staticAssets,
         ILzJsUtilities lzJsUtilities,
-        ISessionViewModelFactory sessionViewModelFactory
+        ISessionViewModelFactory sessionViewModelFactory,
+        ILzHost lzHost
         ) : base(loggerFactory, tenantConfigViewModelFactory, staticAssets, lzJsUtilities) 
     {
         _sessionViewModelFactory = sessionViewModelFactory;
-        
         IsInitialized = true;
 
     }
@@ -27,6 +27,7 @@ public class SessionsViewModel : BaseAppSessionsViewModel<ISessionViewModel>, IS
         var sessionViewModel = _sessionViewModelFactory.Create(this);
         return sessionViewModel;
     }
+    
 
     // ReadConfigAsync is called from InitAsync() just prior to the IsInitialized being set to true.
 

@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 namespace BaseApp.ViewModels;
 
 public abstract class BaseAppSessionsViewModel<T> : 
-    LzSessionsViewModel<T>, 
+    LzSessionsViewModelAuthNotifications<T>, 
     IBaseAppSessionsViewModel<T>
     where T : IBaseAppSessionViewModel
 

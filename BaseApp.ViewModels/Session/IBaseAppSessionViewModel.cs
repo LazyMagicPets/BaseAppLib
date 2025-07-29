@@ -8,11 +8,7 @@
 public interface IBaseAppSessionViewModel :
     ILzSessionViewModelAuthNotifications
 {
-
     PetsViewModel PetsViewModel { get; set; }
     CategoriesViewModel CategoriesViewModel { get; set; }
     TagsViewModel TagsViewModel { get; set; }
-
-    public IConsumerApi? ConsumerApi { get; set; }
-
 }
