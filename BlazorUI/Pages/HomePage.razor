@@ -1,14 +1,6 @@
 ﻿@namespace BlazorUI
 @page "/HomePage"
-@*
-    CoreComponentBaseAssignViewModel<T> : LzReactiveComponentBaseAssignViewModel<T>
-    LzReactiveComponentBaseAssignViewModel<T> : ComponentBase, IViewFor<T>, INotifyPropertyChanged, ICanActivate, IDisposable
-    CoreComponentBaseAssignViewModel instruments the component with ReactiveUI bindings making it easy to implement MVVM with Blazor.
-    See also: 
-        CoreComponentBase<T> - view model injected directly
-        CoreComponentBasePassViewModel<T> - view model passed as parameter
-*@
-@inherits LzComponentBaseAssignViewModel<ISessionViewModel>
+@inherits LzComponentBaseInjectViewModel<ICurrentSessionViewModel>
 
 <MudPaper Height="400px" Width="600px">
     <MudContainer Fixed="true">
@@ -27,11 +19,14 @@
 </MudPaper>
 
 @code {
-    // Get access to the current sessions data
-    [Inject] private ICurrentSessionViewModel SessionViewModel { get; set; } = default!;
-    protected override async Task OnInitializedAsync()
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        ViewModel = SessionViewModel;
-        await base.OnInitializedAsync();
-    }
+        if (firstRender)
+        {
+            // Any additional logic to run after the component has rendered for the first time
+            await Task.Delay(0); // Simulate async work if needed
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }   
 }

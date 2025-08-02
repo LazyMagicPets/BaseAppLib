@@ -1,15 +1,17 @@
 ﻿namespace BaseApp.ViewModels;
 using LazyMagic.Client.FactoryGenerator; // do not put in global using. Causes runtime error.
+using PublicModule;
+
 [Factory]
 public class TagsViewModel : LzItemsViewModelAuthNotifications<TagViewModel, Tag, TagModel>
 {
     public TagsViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,
-        [FactoryInject] IHostApi hostApi,   
+        [FactoryInject] IPublicModuleClient publicApi,   
         [FactoryInject] ITagViewModelFactory tagViewModelFactory) : base(loggerFactory)
     {
         TagViewModelFactory = tagViewModelFactory;
-        _DTOReadListAsync = (Func<Task<ICollection<Tag>>>?)hostApi.GetMethod("PublicModuleGetPetTagsAsync", typeof(bool));
+        _DTOReadListAsync = publicApi.PublicModuleGetPetTagsAsync;
     }
     public ITagViewModelFactory? TagViewModelFactory { get; init; }
     /// <inheritdoc/>

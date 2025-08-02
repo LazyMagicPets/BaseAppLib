@@ -1,0 +1,22 @@
+﻿@namespace BlazorUI
+@page "/PetPage"
+@inherits LzComponentBaseAssignViewModel<PetViewModel>
+@inject ICurrentSessionViewModel CurrentSessionViewModel
+@inject IPetViewModelFactory PetViewModelFactory
+
+<MudPaper>
+    <MudContainer>
+        <h1>@ViewModel!.Data!.Name</h1>
+        <PetStatusSelect @bind-Value="ViewModel.Data!.PetStatus" />    
+    </MudContainer>
+</MudPaper>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        ViewModel = CurrentSessionViewModel.PetsViewModel.CurrentViewModel;
+        await base.OnInitializedAsync();
+    }
+
+}

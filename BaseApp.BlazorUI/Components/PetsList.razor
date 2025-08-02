@@ -1,0 +1,75 @@
+﻿@namespace BlazorUI 
+@inherits LzComponentBasePassViewModel<PetsViewModel>
+@if (ViewModel!.IsLoading)
+{
+    <Busy />
+}
+else
+{
+        <MudCardHeader>
+               <CardHeaderActions>
+                    @if (OnAddPet.HasDelegate)
+                    {
+                    <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Default" OnClick="AddPet" />
+                    }
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTable T="PetModel"
+            Items="@ViewModel.ViewModels.Values.Select(x => x.Data)">
+                <HeaderContent>
+                    @if(hasActions)
+                    {
+                        <MudTh>Actions</MudTh>
+                    }
+                    <MudTh>Status</MudTh>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Category</MudTh>
+                    <MudTh>Tags</MudTh>
+                </HeaderContent>
+
+                <RowTemplate>
+                    @if(hasActions)
+                    {
+                        <MudTd>
+                            @if(OnEditPet.HasDelegate)
+                            {
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="@(() => EditPet(context))" />
+                            }
+                            @if(OnDeletePet.HasDelegate)
+                            {   
+                                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Primary" OnClick="@(() => DeletePet(context))" />
+                            }
+                        </MudTd>
+                    }
+                    <MudTd>@context.PetStatus</MudTd>
+                    <MudTd DataLabel="Name">@context.Name</MudTd>
+                    <MudTd DataLabel="Category">@context.Category</MudTd>
+                    <MudTd DataLabel="Tags">@(string.Join(",", context.Tags ?? [""]))</MudTd>
+                </RowTemplate>
+
+            </MudTable>
+
+        </MudCardContent>
+        <MudCardActions>
+            @if(OnPetsReload.HasDelegate)
+            {
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="PetsReloadAsync">Reload Pets</MudButton>
+            }
+        </MudCardActions>
+}
+
+@code {
+    [Parameter] public EventCallback OnAddPet { get; set; }
+    [Parameter] public EventCallback<PetModel> OnEditPet { get; set; }
+    [Parameter] public EventCallback<PetModel> OnDeletePet { get; set; }
+    [Parameter] public EventCallback OnPetsReload { get; set; }
+
+    private bool hasActions => OnAddPet.HasDelegate || OnEditPet.HasDelegate || OnDeletePet.HasDelegate;
+
+    private void AddPet() => OnAddPet.InvokeAsync();
+    private void EditPet(PetModel pet) => OnEditPet.InvokeAsync(pet);
+    private void DeletePet(PetModel pet) => OnDeletePet.InvokeAsync(pet);
+    private void PetsReloadAsync() => OnPetsReload.InvokeAsync();
+    
+}

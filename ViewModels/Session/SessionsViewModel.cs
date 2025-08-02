@@ -9,16 +9,16 @@ public class SessionsViewModel : BaseAppSessionsViewModel<ISessionViewModel>, IS
 {
     public SessionsViewModel(
         ILoggerFactory loggerFactory,
+        ILzHttpClient lzHttpClient, // singleton
         ITenantConfigViewModelFactory tenantConfigViewModelFactory,
         IStaticAssets staticAssets,
         ILzJsUtilities lzJsUtilities,
-        ISessionViewModelFactory sessionViewModelFactory,
-        ILzHost lzHost
+        ISessionViewModelFactory sessionViewModelFactory
         ) : base(loggerFactory, tenantConfigViewModelFactory, staticAssets, lzJsUtilities) 
     {
         _sessionViewModelFactory = sessionViewModelFactory;
         IsInitialized = true;
-
+        lzHttpClient.Initialize(this); 
     }
     private ISessionViewModelFactory _sessionViewModelFactory;
     

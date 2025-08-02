@@ -18,6 +18,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="StoreApi" />
+		<PackageReference Include="PublicModuleClientInterface" />
+		<PackageReference Include="ConsumerModuleClientInterface" />
+		<PackageReference Include="StoreModuleClientInterface" />
+		<PackageReference Include="AdminModuleClientInterface" />
+		<PackageReference Include="AdminApi" />
 	</ItemGroup>
 </Project>

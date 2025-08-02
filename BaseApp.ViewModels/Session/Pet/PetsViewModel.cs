@@ -6,11 +6,11 @@ public class PetsViewModel : LzItemsViewModelAuthNotifications<PetViewModel, Pet
 {
     public PetsViewModel(
         [FactoryInject]ILoggerFactory loggerFactory,
-        [FactoryInject] IHostApi hostApi,
+        [FactoryInject] IPublicModuleClient publicApi,
         [FactoryInject] IPetViewModelFactory petViewModelFactory) : base(loggerFactory)  
     { 
         PetViewModelFactory = petViewModelFactory;
-        _DTOReadListAsync = (Func<Task<ICollection<Pet>>>?)hostApi.GetMethod("StoreModuleListPetsAsync", typeof(bool));
+        _DTOReadListAsync = publicApi.PublicModuleListPetsAsync;
     }
     public IPetViewModelFactory? PetViewModelFactory { get; init; }
     /// <inheritdoc/>

@@ -1,0 +1,50 @@
+﻿@namespace BlazorUI
+@page "/PetsPage"
+@inherits LzComponentBaseAssignViewModel<PetsViewModel>
+@inject ICurrentSessionViewModel CurrentSessionViewModel
+@inject NavigationManager NavigationManager
+
+<MudPaper>
+    <MudContainer>
+
+        <PetsList ViewModel="@ViewModel" 
+            OnAddPet="AddPet"
+            OnEditPet="EditPet"
+            OnDeletePet="DeletePet"
+            OnPetsReload="OnPetsReload"/>
+
+    </MudContainer>
+</MudPaper>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        ViewModel = CurrentSessionViewModel.PetsViewModel;
+        await ViewModel!.ReadAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private async Task OnPetsReload()
+    {
+        // Logic to handle pets reload, if needed
+        await ViewModel!.ReadAsync();
+    }   
+    private async Task AddPet()
+    {
+        ;
+    }
+
+    private async Task EditPet(PetModel pet)
+    {
+        ViewModel!.CurrentViewModel = ViewModel.ViewModels[pet.Id];
+        NavigationManager.NavigateTo("/PetPage"); 
+        // Logic to edit the pet
+       
+    }
+    private async Task DeletePet(PetModel pet)
+    {
+        // Logic to delete the pet
+        ;
+    }
+}

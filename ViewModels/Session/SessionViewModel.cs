@@ -8,7 +8,6 @@ namespace ViewModels;
 /// the data (in this case the sets).
 /// </summary>
 [Factory]
-
 public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICurrentSessionViewModel
 {
     public SessionViewModel(
@@ -21,7 +20,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
         [FactoryInject] IPetsViewModelFactory petsViewModelFactory, // transient
         [FactoryInject] ICategoriesViewModelFactory categoriesViewModelFactory, // transient
         [FactoryInject] ITagsViewModelFactory tagsViewModelFactory, // transient
-        [FactoryInject] Lazy<IStoreApi> storeApi, // singleton
+        [FactoryInject] IAdminApi storeApi, // singleton
         ISessionsViewModel sessionsViewModel
         ) : base(loggerFactory, authProcess, clientConfig, connectivityService, messages, 
                 petsViewModelFactory, categoriesViewModelFactory, tagsViewModelFactory )
@@ -30,18 +29,18 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
 
         try
         {
-            // Note that StoreApi has a dependency on LzHttpClient, which has a dependency on ISessionsViewModel.
+            // Note that AdminApi has a dependency on LzHttpClient, which has a dependency on ISessionsViewModel.
             // The LzHttpClient uses Lazy<ISessionsViewModel> to avoid a circular dependency. This works just fine 
-            // as we make no calls to the StoreApi until after the SessionViewModel is fully initialized. 
+            // as we make no calls to the AdminApi until after the SessionViewModel is fully initialized. 
             
             var tenantKey = (string?)clientConfig.TenancyConfig["tenantKey"] ?? throw new Exception("Cognito TenancyConfig.tenantKey is null");
             authProcess.SetAuthenticator(clientConfig.AuthConfigs?["TenantAuth"]!);
             authProcess.SetSignUpAllowed(false);
 
-            // Note: IStoreApi is resolved when IHostApi is resolved. This makes dynamice binding of the API methods possible
-            // in libraries like the BaseApp.ViewModels. In the app, use the IStoreApi interface to access the StoreApi methods 
+            // Note: IAdminApi is resolved when IHostApi is resolved. This makes dynamice binding of the API methods possible
+            // in libraries like the BaseApp.ViewModels. In the app, use the IAdminApi interface to access the AdminApi methods 
             // to avoid the overhead of the dynamic binding.
-            _storeApi = storeApi?.Value ?? throw new ArgumentNullException(nameof(storeApi), "StoreApi cannot be null");
+            _storeApi = storeApi ?? throw new ArgumentNullException(nameof(storeApi), "AdminApi cannot be null");
         }
         catch (Exception ex)
         {
@@ -51,7 +50,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
     }
 
     private ISessionsViewModel? sessionsViewModel;
-    protected IStoreApi _storeApi;
+    private IAdminApi _storeApi;
     public override async Task InitAsync()
     {
         try

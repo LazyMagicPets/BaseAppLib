@@ -19,7 +19,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ConsumerApi" />
+		<PackageReference Include="PublicModuleClientInterface" />
+		<PackageReference Include="ConsumerModuleClientInterface" />
+		<PackageReference Include="StoreModuleClientInterface" />
+		<PackageReference Include="AdminModuleClientInterface" />
 	</ItemGroup>	
 	
 </Project>

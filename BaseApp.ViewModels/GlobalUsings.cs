@@ -10,5 +10,8 @@ global using ReactiveUI.Fody.Helpers;
 global using System.ComponentModel;
 global using System.Text.Json.Serialization;
 
-global using ConsumerApi;
 global using SharedSchema;
+global using AdminModule;
+global using ConsumerModule;
+global using PublicModule;
+global using StoreModule;

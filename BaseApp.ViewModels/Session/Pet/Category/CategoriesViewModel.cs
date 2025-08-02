@@ -5,11 +5,11 @@ public class CategoriesViewModel : LzItemsViewModelAuthNotifications<CategoryVie
 {
     public CategoriesViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,
-        [FactoryInject] IHostApi hostApi,
+        [FactoryInject] IPublicModuleClient api,
         [FactoryInject] ICategoryViewModelFactory categoryViewModelFactory) : base(loggerFactory)
     {
         CategoryViewModelFactory = categoryViewModelFactory;
-        _DTOReadListAsync = (Func<Task<ICollection<Category>>>?)hostApi.GetMethod("PublicModuleGetPetCategoriesAsync", typeof(bool));
+        _DTOReadListAsync = api.PublicModuleGetPetCategoriesAsync;
     }
     public ICategoryViewModelFactory? CategoryViewModelFactory { get; init; }
     /// <inheritdoc/>

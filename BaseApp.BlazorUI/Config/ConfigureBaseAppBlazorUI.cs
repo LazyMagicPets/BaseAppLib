@@ -12,7 +12,6 @@ public static class ConfigureBaseAppBlazorUI
         return services
         // Add our components
         .AddSingleton<IConnectivityService, ConnectivityService>()
-        .AddSingleton<IInternetConnectivitySvc>(sp => sp.GetRequiredService<IConnectivityService>())
         .AddSingleton<IOSAccess, BlazorOSAccess>()
         .AddSingleton<ILzJsUtilities, LzJsUtilities>()
         .AddSingleton<BrowserFingerprintService>()

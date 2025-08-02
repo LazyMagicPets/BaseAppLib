@@ -23,7 +23,6 @@ public abstract class BaseAppSessionViewModel :
         TagsViewModel = tagsViewModelFactory?.Create() ?? throw new ArgumentNullException(nameof(tagsViewModelFactory));
     }
 
-    public IConsumerApi? ConsumerApi { get; set; }
     public PetsViewModel PetsViewModel { get; set; }
     public CategoriesViewModel CategoriesViewModel { get; set; }
     public TagsViewModel TagsViewModel { get; set; }

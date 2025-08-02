@@ -44,13 +44,20 @@
         {
             try
             {
-                // We initialize the following because the DI container doens't have access
-                // to the JSRuntime until the first render in MAUI.
-                await ConnectivityService.InitializeAsync(JSRuntime);
-                Messages.SetStaticAssets(staticAssets);
+                // Services implemented using Browser features, but referenced in ViewModels require
+                // speical initialization in their implementation. For example these services
+                // may use the JSRuntime, so we can cast the Interface to the concrete implementation
+                // type to give the service access to the JSRuntime as shown below.
+                // An alternative implementation, not using the JSRuntime, would not need this cast
+                // or initialization call.
+                await ((ConnectivityService)ConnectivityService).InitializeAsync(JSRuntime);
+
                 LzJsUtilities.SetJSRuntime(JSRuntime);
                 await LzJsUtilities.Initialize();
+
+                Messages.SetStaticAssets(staticAssets);
                 await ClientConfig.InitializeAsync(Host.AssetsUrl);
+
                 BrowserFingerprintService.SetJSRuntime(JSRuntime);
 
                 await SessionsViewModel!.TenantConfigViewModel!.ReadAsync("subtenancy/base/System/tenantconfig.json");
