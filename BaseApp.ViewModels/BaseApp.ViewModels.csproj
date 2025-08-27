@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="$([MSBuild]::GetPathOfFileAbove('Solution.Build.props'))"/>
-	<Import Project="$([MSBuild]::GetPathOfFileAbove('MakePackage.targets'))"/>
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('Solution.Build.props'))" />
+	<Import Project="$([MSBuild]::GetPathOfFileAbove('MakePackage.targets'))" />
 	<PropertyGroup>
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 		<AssemblyName>BaseApp.ViewModels</AssemblyName>

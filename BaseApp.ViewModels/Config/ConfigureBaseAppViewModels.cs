@@ -1,6 +1,4 @@
 ﻿
-using LazyMagic.Shared;
-
 namespace BaseApp.ViewModels;
 
 public static class ConfigureBaseAppViewModels
@@ -22,6 +20,8 @@ public static class ConfigureBaseAppViewModels
         services.TryAddSingleton<IConsumerModuleClient>(provider => null!);
         services.TryAddSingleton<IStoreModuleClient>(provider => null!);
         services.TryAddSingleton<IAdminModuleClient>(provider => null!);
+
+        services.AddLazyMagicClientViewModels();
 
         return services;
     }

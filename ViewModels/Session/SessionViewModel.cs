@@ -20,7 +20,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
         [FactoryInject] IPetsViewModelFactory petsViewModelFactory, // transient
         [FactoryInject] ICategoriesViewModelFactory categoriesViewModelFactory, // transient
         [FactoryInject] ITagsViewModelFactory tagsViewModelFactory, // transient
-        [FactoryInject] IAdminApi storeApi, // singleton
+        [FactoryInject] IAdminApi api, // singleton
         ISessionsViewModel sessionsViewModel
         ) : base(loggerFactory, authProcess, clientConfig, connectivityService, messages, 
                 petsViewModelFactory, categoriesViewModelFactory, tagsViewModelFactory )
@@ -40,17 +40,17 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
             // Note: IAdminApi is resolved when IHostApi is resolved. This makes dynamice binding of the API methods possible
             // in libraries like the BaseApp.ViewModels. In the app, use the IAdminApi interface to access the AdminApi methods 
             // to avoid the overhead of the dynamic binding.
-            _storeApi = storeApi ?? throw new ArgumentNullException(nameof(storeApi), "AdminApi cannot be null");
+            _api = api ?? throw new ArgumentNullException(nameof(api), "StoreApi cannot be null");
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error creating SetCalculatorsViewModel: {ex.Message}");
+            Console.WriteLine($"Error creating SessionsViewModel: {ex.Message}");
             throw;
         }
     }
 
     private ISessionsViewModel? sessionsViewModel;
-    private IAdminApi _storeApi;
+    private IAdminApi _api;
     public override async Task InitAsync()
     {
         try
@@ -60,7 +60,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
             PublicSchema.Fingerprint newFingerprint = JsonConvert.DeserializeObject<PublicSchema.Fingerprint>(fingerPrint) ?? new PublicSchema.Fingerprint();
 
             newFingerprint.Id = Guid.NewGuid().ToString();
-            await _storeApi.PublicModuleFingerprintCreateAsync(newFingerprint);
+            await _api.PublicModuleFingerprintCreateAsync(newFingerprint);
         }
         catch (Exception ex)
         {

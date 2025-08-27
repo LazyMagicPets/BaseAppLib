@@ -1,10 +1,3 @@
-using LazyMagic.Blazor;
-using LazyMagic.Shared;
-using Microsoft.JSInterop;
-using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
-
-
 public partial class Program
 {
     // _appConfig must be static so that those classes that are registered in the DI container can access it.

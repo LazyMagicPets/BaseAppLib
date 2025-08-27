@@ -18,15 +18,3 @@
     </MudContainer>
 </MudPaper>
 
-@code {
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            // Any additional logic to run after the component has rendered for the first time
-            await Task.Delay(0); // Simulate async work if needed
-        }
-        await base.OnAfterRenderAsync(firstRender);
-    }   
-}
