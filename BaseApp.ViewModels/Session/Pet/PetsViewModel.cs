@@ -2,7 +2,7 @@
 using LazyMagic.Client.FactoryGenerator; // do not put in global using. Causes runtime error.
 [Factory]
 /// <inheritdoc/>
-public class PetsViewModel : LzItemsViewModelAuthNotifications<PetViewModel, Pet, PetModel>
+public class PetsViewModel : LzItemsViewModel<PetViewModel, Pet, PetModel>
 {
     public PetsViewModel(
         [FactoryInject]ILoggerFactory loggerFactory,

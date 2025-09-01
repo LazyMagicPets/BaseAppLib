@@ -15,6 +15,10 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
 		<ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
+		<PackageReference Include="LazyMagic.OIDC.WASM" />
+		
+	</ItemGroup>
+	<ItemGroup>
 		<ProjectReference Include="../BlazorUI/BlazorUI.csproj" />
 	</ItemGroup>
 

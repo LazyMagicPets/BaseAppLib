@@ -1,6 +1,4 @@
-﻿using LazyMagic.Client.Auth;
-using Newtonsoft.Json;
-
+﻿using LazyMagic.Client.FactoryGenerator; // do not put in global using. Causes runtime error.
 namespace ViewModels;
 /// <summary>
 /// The SessionViewModel is the root viewModel for a user session.
@@ -8,35 +6,21 @@ namespace ViewModels;
 /// the data (in this case the sets).
 /// </summary>
 [Factory]
-public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICurrentSessionViewModel
+public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel
 {
     public SessionViewModel(
         [FactoryInject] ILoggerFactory loggerFactory, // singleton
-        [FactoryInject] ILzClientConfig clientConfig, // singleton
         [FactoryInject] IConnectivityService connectivityService, // singleton
-        [FactoryInject] ILzHost lzHost, // singleton
         [FactoryInject] ILzMessages messages, // singleton
-        [FactoryInject] IAuthProcess authProcess, // transient
         [FactoryInject] IPetsViewModelFactory petsViewModelFactory, // transient
         [FactoryInject] ICategoriesViewModelFactory categoriesViewModelFactory, // transient
         [FactoryInject] ITagsViewModelFactory tagsViewModelFactory, // transient
-        [FactoryInject] IAdminApi api, // singleton
-        ISessionsViewModel sessionsViewModel
-        ) : base(loggerFactory, authProcess, clientConfig, connectivityService, messages, 
+        [FactoryInject] IAdminApi api // singleton
+        ) : base(loggerFactory, connectivityService, messages, 
                 petsViewModelFactory, categoriesViewModelFactory, tagsViewModelFactory )
     {
-        this.sessionsViewModel = sessionsViewModel;
-
         try
         {
-            // Note that AdminApi has a dependency on LzHttpClient, which has a dependency on ISessionsViewModel.
-            // The LzHttpClient uses Lazy<ISessionsViewModel> to avoid a circular dependency. This works just fine 
-            // as we make no calls to the AdminApi until after the SessionViewModel is fully initialized. 
-            
-            var tenantKey = (string?)clientConfig.TenancyConfig["tenantKey"] ?? throw new Exception("Cognito TenancyConfig.tenantKey is null");
-            authProcess.SetAuthenticator(clientConfig.AuthConfigs?["TenantAuth"]!);
-            authProcess.SetSignUpAllowed(false);
-
             // Note: IAdminApi is resolved when IHostApi is resolved. This makes dynamice binding of the API methods possible
             // in libraries like the BaseApp.ViewModels. In the app, use the IAdminApi interface to access the AdminApi methods 
             // to avoid the overhead of the dynamic binding.
@@ -49,18 +33,17 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel, ICur
         }
     }
 
-    private ISessionsViewModel? sessionsViewModel;
     private IAdminApi _api;
     public override async Task InitAsync()
     {
         try
         {
-            var fingerPrint = JsonConvert.SerializeObject(sessionsViewModel!.BrowserFingerprint);
+            //var fingerPrint = JsonConvert.SerializeObject(sessionsViewModel!.BrowserFingerprint);
 
-            PublicSchema.Fingerprint newFingerprint = JsonConvert.DeserializeObject<PublicSchema.Fingerprint>(fingerPrint) ?? new PublicSchema.Fingerprint();
+            //PublicSchema.Fingerprint newFingerprint = JsonConvert.DeserializeObject<PublicSchema.Fingerprint>(fingerPrint) ?? new PublicSchema.Fingerprint();
 
-            newFingerprint.Id = Guid.NewGuid().ToString();
-            await _api.PublicModuleFingerprintCreateAsync(newFingerprint);
+            //newFingerprint.Id = Guid.NewGuid().ToString();
+            //await _api.PublicModuleFingerprintCreateAsync(newFingerprint);
         }
         catch (Exception ex)
         {

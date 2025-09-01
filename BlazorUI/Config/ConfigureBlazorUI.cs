@@ -1,4 +1,6 @@
-﻿namespace BlazorUI;
+﻿using MudBlazor.Services;
+
+namespace BlazorUI;
 public static partial class ConfigureBlazorUI
 {
     public static IServiceCollection AddBlazorUI(this IServiceCollection services)

@@ -1,7 +1,7 @@
 ﻿@namespace BlazorUI
 @page "/PetPage"
 @inherits LzComponentBaseAssignViewModel<PetViewModel>
-@inject ICurrentSessionViewModel CurrentSessionViewModel
+@inject ISessionViewModel SessionViewModel
 @inject IPetViewModelFactory PetViewModelFactory
 
 <MudPaper>
@@ -15,7 +15,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ViewModel = CurrentSessionViewModel.PetsViewModel.CurrentViewModel;
+        ViewModel = SessionViewModel.PetsViewModel.CurrentViewModel;
         await base.OnInitializedAsync();
     }
 

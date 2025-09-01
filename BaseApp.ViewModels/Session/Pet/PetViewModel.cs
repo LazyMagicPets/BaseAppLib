@@ -5,7 +5,7 @@ using StoreModule;
 using PublicModule;
 
 [Factory]
-public class PetViewModel : LzItemViewModelAuthNotifications<Pet, PetModel>
+public class PetViewModel : LzItemViewModel<Pet, PetModel>
 {
     public PetViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,

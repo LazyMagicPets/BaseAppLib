@@ -10,8 +10,6 @@ public static class ConfigureBaseAppViewModels
 
         services.TryAddSingleton<ILzMessages, LzMessages>();
         services.TryAddSingleton<ILzClientConfig, LzClientConfig>();
-        services.TryAddSingleton<ILzHttpClient, LzHttpClientCognito>();
-        services.AddLazyMagicAuthCognito();
 
         // Use of the various module clients is optional so we register them as singletons with null values.
         // Note we are using TryAdd so any existing registrations will not be overridden. It is expected that 

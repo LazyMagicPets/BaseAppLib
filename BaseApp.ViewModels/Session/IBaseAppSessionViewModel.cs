@@ -6,7 +6,7 @@
 /// we only have one because the SnapsApp only references the SetsCmp.ViewModels library.
 /// </summary>
 public interface IBaseAppSessionViewModel :
-    ILzSessionViewModelAuthNotifications
+    ILzSessionViewModel
 {
     PetsViewModel PetsViewModel { get; set; }
     CategoriesViewModel CategoriesViewModel { get; set; }

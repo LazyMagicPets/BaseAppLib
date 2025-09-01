@@ -10,10 +10,9 @@
 		<PackageReference Include="ReactiveUI.Fody" />
 		<PackageReference Include="ReactiveUI" />
 		
-		<PackageReference Include="LazyMagic.Client.FactoryGenerator" PrivateAssets="all" />
-		<PackageReference Include="LazyMagic.Client.ModelGenerator" PrivateAssets="all" />
-		<PackageReference Include="LazyMagic.Client.Auth.Cognito" />
-		<PackageReference Include="LazyMagic.Client.ViewModels.Auth.Notifications" />
+		<PackageReference Include="LazyMagic.Client.FactoryGenerator" />
+		<PackageReference Include="LazyMagic.Client.ModelGenerator" />
+		<PackageReference Include="LazyMagic.Client.ViewModels" />
 		<PackageReference Include="LazyMagic.Shared" />
 		<!--<PackageReference Include="TenantApi" />-->
 	</ItemGroup>

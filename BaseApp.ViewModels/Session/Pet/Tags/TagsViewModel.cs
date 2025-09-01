@@ -3,7 +3,7 @@ using LazyMagic.Client.FactoryGenerator; // do not put in global using. Causes r
 using PublicModule;
 
 [Factory]
-public class TagsViewModel : LzItemsViewModelAuthNotifications<TagViewModel, Tag, TagModel>
+public class TagsViewModel : LzItemsViewModel<TagViewModel, Tag, TagModel>
 {
     public TagsViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,

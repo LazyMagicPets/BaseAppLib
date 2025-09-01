@@ -1,12 +1,4 @@
-﻿using LazyMagic.Client.Base;
-using LazyMagic.Shared;
-using BlazorUI;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using Newtonsoft.Json.Linq;
-using LazyMagic.Blazor;
-using System.Text.RegularExpressions;
-using ViewModels;
+﻿using LazyMagic.OIDC.Base;
 
 namespace MAUIApp;
 
@@ -48,35 +40,43 @@ public static class MauiProgram
 
         // Here, we only register classes that require specific MAUI configuration.
         // The call to AddBlazorUI() will register all the other classes that are not MAUI specific.
-        builder.Services
-        //.AddSingleton(sp => new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) })
-        .AddSingleton(sp => new HttpClient())
-        .AddSingleton<IStaticAssets>(sp => new BlazorStaticAssets(
-            sp.GetRequiredService<ILoggerFactory>(),
-            new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) }))
+        builder.Services.AddSingleton(sp => new HttpClient());
 
-        .AddSingleton<ILzHost>(sp => new LzHost(
+        builder.Services.AddSingleton<IStaticAssets>(sp => new BlazorStaticAssets(
+            sp.GetRequiredService<ILoggerFactory>(),
+            new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) }));
+
+        builder.Services.AddSingleton<ILzHost>(sp => new LzHost(
             appPath: (string)_appConfig!["appPath"]!, // app path
             appUrl: (string)_appConfig!["appUrl"]!, // app url  
             androidAppUrl: (string)_appConfig!["androidAppUrl"]!, // android app url 
             remoteApiUrl: (string)_appConfig!["remoteApiUrl"]!,  // api url
             localApiUrl: (string)_appConfig!["localApiUrl"]!, // local api url
             assetsUrl: (string)_appConfig!["assetsUrl"]!, // tenancy assets url
+            authConfigName: (string)_appConfig!["authConfigName"]!, // auth config name
             isMAUI: true,
             isAndroid: isAndroid,
             isLocal: isLocal,
-            useLocalhostApi: (bool)_appConfig!["useLocalHostApi"]!))
+            useLocalhostApi: (bool)_appConfig!["useLocalHostApi"]!));
 
-        .AddMauiBlazorWebView();
+        builder.Services.AddMauiBlazorWebView(); ;
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddAppViewModels();    
-        builder.Services.AddBlazorUI();
+
+        builder.Services.AddApp();
+
+        // Add dynamic OIDC authentication with lazy-loaded configuration
+        // This doesn't block startup waiting for config to load
+        builder.Services.AddLazyMagicOIDCMAUI(); // Add services
 
         var host = builder.Build();
+
+        // Load OIDC configuration in background (non-blocking)
+        _ = Task.Run(async () => await ConfigureLazyMagicOIDCMAUI.LoadConfiguration(host));
+
         return host;
     }
 

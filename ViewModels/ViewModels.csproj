@@ -6,9 +6,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="LazyMagic.Client.FactoryGenerator" PrivateAssets="all"/>
-		<PackageReference Include="LazyMagic.Client.ModelGenerator" PrivateAssets="all" />
-		
+		<PackageReference Include="LazyMagic.Client.FactoryGenerator" />
+		<PackageReference Include="LazyMagic.Client.ModelGenerator" />
+		<PackageReference Include="LazyMagic.OIDC.Base" />
 		<PackageReference Include="ReactiveUI.Fody" />
 		<PackageReference Include="ReactiveUI" />
 	</ItemGroup>

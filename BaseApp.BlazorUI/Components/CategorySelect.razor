@@ -1,6 +1,6 @@
 ﻿@namespace BlazorUI
 @inherits LzComponentBaseAssignViewModel<CategoriesViewModel>
-@inject IBaseAppSessionsViewModelBase SessionsViewModel
+@inject IBaseAppSessionViewModel SessionViewModel
 
 @if (ViewModel is not null)
 {
@@ -23,7 +23,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        ViewModel = SessionsViewModel?.BaseAppSessionViewModel?.CategoriesViewModel;
+        ViewModel = SessionViewModel?.CategoriesViewModel;
         if (ViewModel != null)
         {
             if (ViewModel.ViewModels.Count == 0)

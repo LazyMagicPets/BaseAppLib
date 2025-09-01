@@ -14,11 +14,15 @@
 	<ItemGroup>
 		<PackageReference Include="MudBlazor" />
 		<PackageReference Include="KristofferStrube.Blazor.FileSystemAccess" />
-		<PackageReference Include="LazyMagic.Blazor.Auth" />
+		<PackageReference Include="LazyMagic.MudBlazor" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Pages\" />
 	</ItemGroup>
 
 </Project>

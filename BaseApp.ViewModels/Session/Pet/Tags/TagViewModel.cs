@@ -1,7 +1,7 @@
 ﻿namespace BaseApp.ViewModels;
 using LazyMagic.Client.FactoryGenerator; // do not put in global using. Causes runtime error.
 [Factory]
-public class TagViewModel : LzItemViewModelAuthNotifications<Tag, TagModel>
+public class TagViewModel : LzItemViewModel<Tag, TagModel>
 {
     public TagViewModel(
         [FactoryInject] ILoggerFactory loggerFactory,
