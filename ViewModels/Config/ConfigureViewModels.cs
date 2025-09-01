@@ -11,7 +11,7 @@ public static class ConfigureViewModels
 
 
         // Register the ClientSDK 
-        services.AddSingleton<IAdminApi> (serviceProvider =>
+        services.AddScoped<IAdminApi> (serviceProvider =>
         {
             var lzHost = serviceProvider.GetRequiredService<ILzHost>();
             var authenticationHandler = serviceProvider.GetRequiredService<IAuthenticationHandler>();
@@ -25,11 +25,11 @@ public static class ConfigureViewModels
         });
 
         // Register the modules used from the Client SDK.
-        services.AddSingleton<IPublicModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
-        services.AddSingleton<IConsumerModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
-        services.AddSingleton<IStoreModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
+        services.AddScoped<IPublicModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
+        services.AddScoped<IConsumerModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
+        services.AddScoped<IStoreModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
 
-        services.AddSingleton<ISessionViewModel, SessionViewModel>();
+        services.AddScoped<ISessionViewModel, SessionViewModel>();
 
         services.AddBaseAppViewModels();
            

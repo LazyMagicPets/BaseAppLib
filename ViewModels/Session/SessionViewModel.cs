@@ -1,6 +1,6 @@
 ﻿using LazyMagic.Client.FactoryGenerator; // do not put in global using. Causes runtime error.
 namespace ViewModels;
-/// <summary>
+/// <summary>do it
 /// The SessionViewModel is the root viewModel for a user session.
 /// This class maintains the "state" of the use session, which includes 
 /// the data (in this case the sets).
@@ -15,7 +15,7 @@ public class SessionViewModel : BaseAppSessionViewModel, ISessionViewModel
         [FactoryInject] IPetsViewModelFactory petsViewModelFactory, // transient
         [FactoryInject] ICategoriesViewModelFactory categoriesViewModelFactory, // transient
         [FactoryInject] ITagsViewModelFactory tagsViewModelFactory, // transient
-        [FactoryInject] IAdminApi api // singleton
+        [FactoryInject] IAdminApi api // scoped
         ) : base(loggerFactory, connectivityService, messages, 
                 petsViewModelFactory, categoriesViewModelFactory, tagsViewModelFactory )
     {

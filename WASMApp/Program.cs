@@ -70,7 +70,8 @@ public class Program
 
         builder.Services.AddApp();
 
-        builder.Services.AddScoped<IAuthenticationHandler, BearerTokenHandler>();
+        builder.Services.AddTransient<IAuthenticationHandler, BearerTokenHandler>();
+
         // Add dynamic OIDC authentication with lazy-loaded configuration
         // This doesn't block startup waiting for config to load
         builder.Services.AddLazyMagicOIDCWASM(); // Add services

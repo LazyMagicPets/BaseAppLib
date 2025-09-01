@@ -14,10 +14,10 @@ public static class ConfigureBaseAppViewModels
         // Use of the various module clients is optional so we register them as singletons with null values.
         // Note we are using TryAdd so any existing registrations will not be overridden. It is expected that 
         // the application will register its own implementations of these interfaces if needed.
-        services.TryAddSingleton<IPublicModuleClient>(provider => null!);
-        services.TryAddSingleton<IConsumerModuleClient>(provider => null!);
-        services.TryAddSingleton<IStoreModuleClient>(provider => null!);
-        services.TryAddSingleton<IAdminModuleClient>(provider => null!);
+        services.TryAddScoped<IPublicModuleClient>(provider => null!);
+        services.TryAddScoped<IConsumerModuleClient>(provider => null!);
+        services.TryAddScoped<IStoreModuleClient>(provider => null!);
+        services.TryAddScoped<IAdminModuleClient>(provider => null!);
 
         services.AddLazyMagicClientViewModels();
 
