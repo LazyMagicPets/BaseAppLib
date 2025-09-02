@@ -15,7 +15,12 @@
       "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)",
       "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)",
       "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)",
-      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)"
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/OIDC/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/OIDC/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/OIDC/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/Config/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.Base/Models/**)"
     ],
     "deny": []
   }
