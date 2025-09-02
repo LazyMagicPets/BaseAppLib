@@ -1,14 +1,8 @@
 ﻿@namespace BlazorUI
 @page "/SessionPage"
-@* @inherits LzComponentBaseInjectViewModel<ISessionViewModel> *@
 @inject NavigationManager NavigationManager
 @inject ILzHost Host
 @inject ILzClientConfig ClientConfig
-
-@inject ILoggerFactory testLogerFactory
-@inject IConnectivityService testConnectivityService
-@inject ILzMessages testLzMessages
-@inject IPetsViewModelFactory testPetsViewModelFactory
 
 
 @if (ClientConfig.ConfigureError)

@@ -2,11 +2,13 @@
 @page "/LogoutPage"
 @inject NavigationManager Navigation
 @inject IJSRuntime JS
+@inject ILzHost lzHost
 @inject IDynamicConfigurationProvider DynamicConfig
 
 <h3>Logging out...</h3>
 
 @code {
+    // This page is used only the MAUI OIDC logout flow
     protected override async Task OnInitializedAsync()
     {
         // Clear local storage first (this is what makes logout work)
@@ -23,7 +25,7 @@
         // Use provider-agnostic logout approach
         var providerType = DynamicConfig.GetProviderType();
         var postLogoutRedirectUri = Navigation.BaseUri; // Keep the trailing slash
-        
+
         Console.WriteLine($"[Logout] Using provider: {providerType}");
         Console.WriteLine($"[Logout] Post-logout redirect URI: {postLogoutRedirectUri}");
         

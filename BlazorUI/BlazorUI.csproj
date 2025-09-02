@@ -1,11 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 	<Import Project="$(MSBuildProjectDirectory)/../Solution.Build.props" />
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<DebugType>portable</DebugType>		
+		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+	</PropertyGroup>
+
 	<ItemGroup>
-	  <Compile Remove="Services\**" />
-	  <Content Remove="Services\**" />
-	  <EmbeddedResource Remove="Services\**" />
-	  <None Remove="Services\**" />
+		<EmbeddedResource Include="wwwroot\appConfig.js" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -13,24 +19,14 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 	</ItemGroup>
 	
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="wwwroot\appConfig.js" />
-	</ItemGroup>
-	
 	<ItemGroup>
 		<PackageReference Include="ReactiveUI" />
 		<PackageReference Include="ReactiveUI.Fody" />
-		
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\BaseApp.BlazorUI\BaseApp.BlazorUI.csproj" />
 		<ProjectReference Include="..\ViewModels\ViewModels.csproj" />
-
 	</ItemGroup>
 
 	<ItemGroup>
