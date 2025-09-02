@@ -10,7 +10,7 @@
         <RememberMeToggle />
         <span class="me-3">Hello, @userName!</span>
         <a href="/ProfilePage" class="btn btn-link">Profile</a>
-        <button class="btn btn-link" @onclick="BeginLogOut">Log out</button>
+        <button class="btn btn-link" @onclick="async () => await BeginLogOut()">Log out</button>
     </div>
 }
 else
@@ -102,10 +102,23 @@ catch (Exception ex)
         }
     }
 
-    private void BeginLogOut()
+    private async Task BeginLogOut()
     {
-        // Navigate to the logout page which handles the full logout process
-        Navigation.NavigateTo("/LogoutPage", forceLoad: true);
+        try
+        {
+            // Call the OIDC service logout directly
+            // This handles token clearing, WebView session clearing, and server-side logout
+            await AuthService.LogoutAsync();
+            
+            // After logout completes, navigate to home page
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[LoginDisplay] Error during logout: {ex.Message}");
+            // Still try to navigate home even if logout had issues
+            Navigation.NavigateTo("/", forceLoad: true);
+        }
     }
 
     public void Dispose()
