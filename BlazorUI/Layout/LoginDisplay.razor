@@ -80,7 +80,7 @@ catch (Exception ex)
             var authState = await AuthService.GetAuthenticationStateAsync();
             isAuthenticated = authState.IsAuthenticated;
             userName = authState.UserName;
-            if (isAuthenticated) Navigation.NavigateTo("/SessionPage");
+            if (isAuthenticated) Navigation.NavigateTo("SessionPage");
         }
         catch (Exception ex)
         {

@@ -30,6 +30,7 @@ public static class ConfigureViewModels
         services.AddScoped<IStoreModuleClient>(provider => provider.GetRequiredService<IAdminApi>());
 
         services.AddScoped<ISessionViewModel, SessionViewModel>();
+        services.AddTransient<IBaseAppSessionViewModel>(sp => sp.GetRequiredService<ISessionViewModel>());
 
         services.AddBaseAppViewModels();
            

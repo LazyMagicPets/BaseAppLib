@@ -1,5 +1,5 @@
 ﻿@namespace BlazorUI
-@inherits LzComponentBasePassViewModel<ILzJsUtilities>
+@inherits LzComponentBaseInjectViewModel<ILzJsUtilities>
 
 <div class="modal-overlay @(IsModalVisible ? "active" : "")" @onclick:preventDefault @onclick:stopPropagation></div>
 

@@ -29,8 +29,8 @@
 		<PackageVersion Include="LazyMagic.MudBlazor" Version="3.0.1" />
 		<PackageVersion Include="LazyMagic.Blazor.WASM" Version="3.0.1" />
 		<PackageVersion Include="LazyMagic.Client.ViewModels" Version="3.0.1" />
-		<PackageVersion Include="lazyMagic.OIDC.Base" Version="3.0.1" />
-		<PackageVersion Include="lazyMagic.OIDC.WASM" Version="3.0.1" />
+		<PackageVersion Include="LazyMagic.OIDC.Base" Version="3.0.1" />
+		<PackageVersion Include="LazyMagic.OIDC.WASM" Version="3.0.1" />
 		<PackateVersion Include="LazyMagic.OIDC.MAUI" Version="3.0.1" />
 		<PackageVersion Include="LazyMagic.Shared" Version="3.0.1" />
 	</ItemGroup>
