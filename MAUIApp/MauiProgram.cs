@@ -70,6 +70,7 @@ public static class MauiProgram
 
         // Add dynamic OIDC authentication with lazy-loaded configuration
         // This doesn't block startup waiting for config to load
+
         builder.Services.AddLazyMagicOIDCMAUI(); // Add services
 
         var host = builder.Build();

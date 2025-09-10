@@ -1,4 +1,4 @@
-﻿using BlazorUI;
+using BlazorUI;
 
 namespace BlazorTest;
 
@@ -57,6 +57,7 @@ public class Program
 
         builder.Services.AddSingleton<ILzHost>(sp =>
             new LzHost(
+                appPath: (string)_appConfig!["appPath"]!, // web app path
                 appUrl: (string)_appConfig!["appUrl"]!, // web app url
                 androidAppUrl: (string)_appConfig!["androidAppUrl"]!, // android app url 
                 remoteApiUrl: (string)_appConfig!["remoteApiUrl"]!,  // api url
@@ -145,4 +146,5 @@ public class Program
 
         Console.WriteLine("Warning: Page load timeout reached.");
     }
+
 }

@@ -8,6 +8,7 @@
 		<ServiceWorkerAssetsManifest>service-worker-assets.js</ServiceWorkerAssetsManifest>
 		<PublishTrimmed>true</PublishTrimmed>
 		<TrimmerLog>trimmer.log</TrimmerLog>
+		<StaticWebAssetBasePath>baseapp</StaticWebAssetBasePath>
 	</PropertyGroup>
 
 	<ItemGroup>

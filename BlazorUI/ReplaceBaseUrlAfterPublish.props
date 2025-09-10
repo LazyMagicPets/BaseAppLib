@@ -7,8 +7,8 @@ Remember to change the NewBaseUrl property to the baseUrl for your App.
 	<Target Name="ReplaceBaseUrlBeforePublish" BeforeTargets="Publish">
 		<PropertyGroup>
 			<ReplaceBaseUrlScriptPath>$(MSBuildProjectDirectory)\ReplaceBaseUrl.ps1</ReplaceBaseUrlScriptPath>
-			<IndexHtmlPath>$(PublishDir)wwwroot\index.html</IndexHtmlPath>
 			<NewBaseUrl>/baseapp/</NewBaseUrl>
+			<IndexHtmlPath>$(PublishDir)wwwroot\baseapp\index.html</IndexHtmlPath>
 		</PropertyGroup>
 		<Message Text="Publishing to directory: $(PublishDir)" Importance="high" />
 		<Exec Command="pwsh -NonInteractive -ExecutionPolicy Bypass -File &quot;$(ReplaceBaseUrlScriptPath)&quot; -indexHtmlPath &quot;$(IndexHtmlPath)&quot; -newBaseUrl &quot;$(NewBaseUrl)&quot;" />
