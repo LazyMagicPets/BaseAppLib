@@ -37,13 +37,29 @@ if (window.location.origin.includes("localhost")) {
 } else {
     /**** APP LOADED FROM NON-DEV HOST (cloud, remote host etc.) ****/
     // When runing from the cloud, the baseHref is set to the base URL of the app.
-    const baseHrefElement = document.querySelector('base');
-    const fullAppPath = new URL(baseHrefElement.href).pathname;
-    const pathSegments = fullAppPath.split('/').filter(segment => segment !== '');
-    const appPath = pathSegments.length > 0 ? '/' + pathSegments[0] + '/' : '/';
-    // Open the appConfig.js file to get subset of configuration values.
+    console.log("=== INDEXINIT.JS PATH DETECTION ===");
+    console.log("Current URL:", window.location.href);
+    console.log("Current pathname:", window.location.pathname);
+    
+    // Open the appConfig.js file to get the configured app path
     const { appConfig } = await import('./_content/BlazorUI/appConfig.js');
-    console.log("AppPath: " + appPath);
+    
+    // Use the app path from configuration rather than trying to detect it from the URL
+    // This prevents issues during authentication callbacks where the URL context might be wrong
+    let appPath = appConfig.appPath || '/baseapp/';
+    console.log("AppPath from appConfig:", appPath);
+    
+    // Log current URL context for debugging
+    const currentPathSegments = window.location.pathname.split('/').filter(segment => segment !== '');
+    console.log("Current path segments:", currentPathSegments);
+    
+    const baseHrefElement = document.querySelector('base');
+    if (baseHrefElement) {
+        console.log("Base element href:", baseHrefElement.href);
+    }
+    
+    console.log("Final AppPath: " + appPath);
+    console.log("=== END PATH DETECTION ===");
     window.appConfig = {
         appPath: appPath,
         appUrl: window.location.origin + "/",

@@ -22,7 +22,24 @@
       "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/Config/**)",
       "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.Base/Models/**)",
       "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/Config/**)",
-      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)"
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.MAUI/OIDC/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.Blazor/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.Blazor/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.Blazor/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.Blazor/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/LazyMagic.OIDC.WASM/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/wwwroot/**)",
+      "Read(/mnt/c/Users/TimothyMay/repos/_Dev/LazyMagic/LazyMagic/BlazorTest.WASM/**)"
     ],
     "deny": []
   }

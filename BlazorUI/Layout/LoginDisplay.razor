@@ -83,8 +83,6 @@ catch (Exception ex)
             var authState = await AuthService.GetAuthenticationStateAsync();
             isAuthenticated = authState.IsAuthenticated;
             userName = authState.UserName;
-            Console.WriteLine($"[LoginDisplay] Update Authenticated State");
-            if (isAuthenticated) Navigation.NavigateTo("/");
         }
         catch (Exception ex)
         {
@@ -98,7 +96,6 @@ catch (Exception ex)
     {
         try
         {
-            Console.WriteLine($"[LoginDisplay] Begin Log In.");
             await AuthService.LoginAsync();
         }
         catch (Exception ex)
@@ -113,12 +110,10 @@ catch (Exception ex)
         {
             // Call the OIDC service logout directly
             // This handles token clearing and Cognito logout navigation
-            Console.WriteLine($"[LoginDisplay] Begin Log Out.");
             await AuthService.LogoutAsync();
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[LoginDisplay] Error during logout: {ex.Message}");
             // Fallback to local navigation if logout fails
             Navigation.NavigateTo(host.AppPath, forceLoad: true);
         }
