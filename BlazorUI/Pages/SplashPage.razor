@@ -1,10 +1,12 @@
 ﻿@namespace BlazorUI
 @page "/"
 @inject ILzHost Host
+@inject NavigationManager NavigationManager
 <MudText>Splash Page</MudText>
 <MudText Class="mb-8">Welcome to your new app, powered by MudBlazor and the .NET 9 Template!</MudText>
-<p>AppPath @Host.AppPath</p>
-<p>AppUrl @Host.AppUrl</p>
+<p>AppPath: @Host.AppPath</p>
+<p>AppUrl: @Host.AppUrl</p>
+<p>NavigationManger baseUri: @NavigationManager.BaseUri</p>
 @code {
 
 }

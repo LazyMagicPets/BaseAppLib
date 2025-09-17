@@ -1,10 +1,15 @@
-using BlazorUI;
-
-namespace BlazorTest;
+namespace WASMApp;
 
 public class Program
 {
     private static JObject? _appConfig;
+    private static LzHost? LzHost;
+
+    private static void LogMessage(string methodName, string message)
+    {
+        Console.WriteLine($"[{methodName}][{DateTime.UtcNow:HH:mm:ss.fff}] {message}");
+    }
+
     public static async Task Main(string[] args)
     {
         var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -31,11 +36,11 @@ public class Program
         switch (hostEnvironment.Environment)
         {
             case "Production":
-                Console.WriteLine("Loaded from CloudFront");
+                LogMessage("Main", "Loaded from CloudFront");
                 builder.Logging.SetMinimumLevel(LogLevel.Warning);
                 break;
             default:
-                Console.WriteLine("Development environment");
+                LogMessage("Main", "Development environment");
                 builder.Logging.SetMinimumLevel(LogLevel.Information);
                 isLocal = true;
                 var envVar = hostEnvironment.Environment;
@@ -55,9 +60,9 @@ public class Program
                 sp.GetRequiredService<ILoggerFactory>(),
                 new HttpClient { BaseAddress = new Uri((string)_appConfig!["assetsUrl"]!) }));
 
-        builder.Services.AddSingleton<ILzHost>(sp =>
-            new LzHost(
-                appPath: (string)_appConfig!["appPath"]!, // web app path
+        builder.Services.AddSingleton<ILzHost>(sp => {
+            LzHost = new LzHost(
+                appPath: (string)_appConfig!["appPath"]!, // app path (e.g. /baseapp/)
                 appUrl: (string)_appConfig!["appUrl"]!, // web app url
                 androidAppUrl: (string)_appConfig!["androidAppUrl"]!, // android app url 
                 remoteApiUrl: (string)_appConfig!["remoteApiUrl"]!,  // api url
@@ -67,16 +72,16 @@ public class Program
                 isMAUI: false, // sets isWASM to true
                 isAndroid: false,
                 isLocal: isLocal,
-                useLocalhostApi: useLocalhostApi));
+                useLocalhostApi: useLocalhostApi);
+            return LzHost;
+        });
 
         builder.Services.AddApp();
 
-        builder.Services.AddTransient<IAuthenticationHandler, BearerTokenHandler>();
-
         // Add dynamic OIDC authentication with lazy-loaded configuration
         // This doesn't block startup waiting for config to load
-        builder.Services.AddLazyMagicOIDCWASM(); // Add services
-        builder.AddLazyMagicOIDCWASMBuilder(); // Add builder configuraiton
+        builder.Services.AddLazyMagicOIDCWASM(); // services
+        builder.AddLazyMagicOIDCWASMBuilder(); // builder config
 
         var host = builder.Build();
 
@@ -90,7 +95,7 @@ public class Program
 
         if (_appConfig == null)
         {
-            Console.WriteLine("Error loading app config. Exiting.");
+            LogMessage("Main", "Error loading app config. Exiting.");
             return;
         }
 
@@ -120,7 +125,7 @@ public class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error fetching app config: {ex.Message}");
+            LogMessage("GetAppConfigAsync", $"Error fetching app config: {ex.Message}");
             return null;
         }
     }
@@ -136,7 +141,7 @@ public class Program
             var isLoaded = await jsRuntime.InvokeAsync<bool>("checkIfLoaded");
             if (isLoaded)
             {
-                Console.WriteLine("Page fully loaded.");
+                LogMessage("WaitForPageLoad", "Page fully loaded.");
                 return;
             }
 
@@ -144,7 +149,6 @@ public class Program
             totalWaitTime += checkIntervalMs;
         }
 
-        Console.WriteLine("Warning: Page load timeout reached.");
+        LogMessage("WaitForPageLoad", "Warning: Page load timeout reached.");
     }
-
 }

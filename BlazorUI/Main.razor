@@ -1,28 +1,67 @@
 ﻿@namespace BlazorUI
+@inject IJSRuntime JSRuntime
+@inject IStaticAssets staticAssets
+@inject ITenantConfigViewModel TenantConfigViewModel
+@inject ILzMessages Messages
+@inject ILzHost Host
+@inject IStaticAssets StaticAssets
+@inject ILzClientConfig ClientConfig
+@inject ISessionViewModel SessionViewModel
 
 <CascadingAuthenticationState>
     <Services />
-    <WindowResize @ref="@windowResize" HeaderHeight="@headerHeight" MaxWidth="@maxWidth">
-        <Router AppAssembly="@typeof(Main).Assembly">
-            <Found Context="routeData">
-                <WindowFade FadeDuration="250">
-                    <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-                    <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-                </WindowFade>
-            </Found>
-            <NotFound>
-                <PageTitle>Not found</PageTitle>
-                <LayoutView Layout="@typeof(MainLayout)">
-                    <p role="alert">Sorry, there's nothing at this address.</p>
-                </LayoutView>
-            </NotFound>
-        </Router>
+    <WindowResize HeaderHeight="@headerHeight" MaxWidth="@maxWidth">
+        @if (isLoading)
+        {
+            <div style="width: 9rem; height: 9rem; margin-left: 1rem; margin-top: 1rem;">
+                <LzAppLoading AnimationDurationSeconds="2.0"
+                                LoadingMessage="Loadng data." />
+            </div>
+        }
+        else
+        {
+            <Router AppAssembly="typeof(Main).Assembly">
+                <Found Context="routeData">
+                    <WindowFade FadeDuration="250">
+                        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+                        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+                    </WindowFade>
+                </Found>
+
+                <NotFound>
+                    <p>Sorry, there's nothing at this address.</p>
+                    </NotFound>
+            </Router>
+        }
         </WindowResize>
 </CascadingAuthenticationState>
 @code {
+    private string themeJson = "";
     private int headerHeight = 32;
     private int maxWidth = 1000;
-    WindowResize? windowResize;
+    private int minWidth = 400;
+    private bool isLoading = true;
+
+    protected override void OnInitialized()
+    {
+        Messages.SetStaticAssets(staticAssets);
+        Messages.AddBlazorUIMessages();
+        base.OnInitialized();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await TenantConfigViewModel!.ReadAsync("subtenancy/base/System/tenantconfig.json");
+
+        await Messages.SetMessageSetAsync("en-US", LzMessageUnits.Imperial);
+
+        await ClientConfig.InitializeAsync(Host.RemoteApiUrl);
+
+        await SessionViewModel.InitAsync();
+
+        await base.OnInitializedAsync();
+        isLoading = false;
+    }
 
 
 }

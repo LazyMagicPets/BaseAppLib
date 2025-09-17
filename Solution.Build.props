@@ -33,9 +33,9 @@
 
 	<PropertyGroup>
 		<!-- Identity -->
-		<Copyright>Copyright (c) 2021 - 2025 Banquet Consulting. All rights reserved.</Copyright>
+		<Copyright>Copyright (c) 2021 - 2025 Insight Sciences Corporation. All rights reserved.</Copyright>
 		<RepositoryType>GitHub</RepositoryType>
-		<Company>Banquet Consulting</Company>
+		<Company>Insight Sciences Corporation</Company>
 		<RepositoryUrl>https://github.com/Banquet-Consulting/BaseAppLib.git</RepositoryUrl>
 		<RepositoryType>GitHub</RepositoryType>
 		<Authors>Tim May</Authors>
