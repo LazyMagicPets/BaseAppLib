@@ -2,5 +2,9 @@
 
 <MudNavMenu>
     <MudNavLink Href="HomePage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Home</MudNavLink>
-    <MudNavLink Href="PetsPage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Pets</MudNavLink>
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="PetsPage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Pets</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
 </MudNavMenu>
