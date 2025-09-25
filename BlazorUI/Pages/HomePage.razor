@@ -1,33 +1,8 @@
 ﻿@namespace BlazorUI
 @page "/"
 @inherits LzComponentBaseInjectViewModel<ISessionViewModel>
-@inject IOIDCService AuthService
 
-<MudPaper Height="400px" Width="600px">
-    <MudContainer Fixed="true">
-        <MudText>Home Page</MudText>
-        <AuthorizeView>
-            <Authorized>
-                
-            </Authorized>
-            <NotAuthorized>
-                <button class="btn btn-link" @onclick="BeginLogIn">Log in</button>
-            </NotAuthorized>
-        </AuthorizeView>
-    </MudContainer>
+<MudPaper Height="200px" Width="300px" Class="d-flex align-center justify-center">
+    <LoginDisplay DisplayStyle="card" />
 </MudPaper>
 
-@code {
-
-    private async void BeginLogIn()
-    {
-        try
-        {
-            await AuthService.LoginAsync();
-        }
-        catch (Exception ex)
-        {
-            // Handle error silently for now
-        }
-    }
-}

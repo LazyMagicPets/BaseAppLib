@@ -21,8 +21,4 @@
 		<ProjectReference Include="..\BaseApp.ViewModels\BaseApp.ViewModels.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Pages\" />
-	</ItemGroup>
-
 </Project>
